@@ -13,5 +13,5 @@ jobs:
       - uses: subosito/flutter-action@v1
       - uses: bluefireteam/flutter-gh-pages@v7
         with:
-          customArgs: lib/config/main.dart
+          customArgs: -t lib/config/main.dart
           baseHref: /suicide-detection-client/

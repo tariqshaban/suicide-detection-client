@@ -5,7 +5,7 @@ This is a supplementary submission of **final paper** for the **CIS737** course.
 It contains the code necessary to issue a RESTful API request by providing a text, and classifying it to whether it is
 suicidal or not.
 
-To view a live example, [click here](https://tariqshaban.github.io/suicide-detection/).
+To view a live example, [click here](https://tariqshaban.github.io/suicide-detection-client/).
 
 Getting Started
 ------------

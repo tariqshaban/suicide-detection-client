@@ -16,9 +16,12 @@ class Main extends StatelessWidget {
     return MultiProvider(
       providers: providers,
       child: MaterialApp(
-        title: 'Suicide Detection',
         theme: ThemeData.dark(),
-        home: const Home(),
+        home: Title(
+          title: 'Suicide Detection',
+          color: Theme.of(context).primaryColor,
+          child: const Home(),
+        ),
       ),
     );
   }

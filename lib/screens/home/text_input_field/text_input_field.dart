@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../../config/constants.dart';
 import '../../../providers/prediction_provider/prediction_provider.dart';
+import '../../../providers/text_input_field_provider/text_input_field_provider.dart';
 import '../../../services/predict_api_issue_service.dart';
 
 class TextInputField extends StatefulWidget {
@@ -15,9 +16,10 @@ class TextInputField extends StatefulWidget {
 }
 
 class _TextInputFieldState extends State<TextInputField> {
+  late TextInputFieldProvider _textInputFieldProvider;
   late PredictionProvider _predictionProvider;
   String prevText = '';
-  final TextEditingController _textEditingController = TextEditingController();
+  late TextEditingController _textEditingController;
   final FocusNode _focusNode = FocusNode();
   Timer? _debounce;
 
@@ -26,6 +28,11 @@ class _TextInputFieldState extends State<TextInputField> {
     super.initState();
 
     _predictionProvider = context.read<PredictionProvider>();
+    _textInputFieldProvider = context.read<TextInputFieldProvider>();
+
+    _textEditingController = TextEditingController(
+      text: _textInputFieldProvider.text,
+    );
 
     _textEditingController.addListener(() {
       if (_textEditingController.text != prevText) {
@@ -45,30 +52,35 @@ class _TextInputFieldState extends State<TextInputField> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.black54,
-          width: 2,
-        ),
-        borderRadius: const BorderRadius.all(
-          Radius.circular(24),
-        ),
-      ),
-      padding: const EdgeInsets.all(20),
-      child: TextField(
-        autofocus: true,
-        focusNode: _focusNode,
-        maxLines: null,
-        controller: _textEditingController,
-        style: const TextStyle(fontSize: 48),
-        cursorColor: Colors.black,
-        decoration: const InputDecoration.collapsed(
-          hintText: 'Insert sentence to predict...',
-          border: InputBorder.none,
-        ),
-        onTapOutside: _onTapOutside,
-      ),
+    return Consumer<TextInputFieldProvider>(
+      builder: (context, textInputFieldProvider, child) {
+        _checkForExternalChanges();
+        return Container(
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.black54,
+              width: 2,
+            ),
+            borderRadius: const BorderRadius.all(
+              Radius.circular(24),
+            ),
+          ),
+          padding: const EdgeInsets.all(20),
+          child: TextField(
+            autofocus: true,
+            focusNode: _focusNode,
+            maxLines: null,
+            controller: _textEditingController,
+            style: const TextStyle(fontSize: 48),
+            cursorColor: Colors.black,
+            decoration: const InputDecoration.collapsed(
+              hintText: 'Insert sentence to predict...',
+              border: InputBorder.none,
+            ),
+            onTapOutside: _onTapOutside,
+          ),
+        );
+      },
     );
   }
 
@@ -100,5 +112,16 @@ class _TextInputFieldState extends State<TextInputField> {
       context,
       text: _textEditingController.text,
     );
+  }
+
+  void _checkForExternalChanges() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_textEditingController.text != _textInputFieldProvider.text) {
+        _textEditingController.text = _textInputFieldProvider.text;
+        _textEditingController.selection = TextSelection.collapsed(
+          offset: _textEditingController.text.length,
+        );
+      }
+    });
   }
 }

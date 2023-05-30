@@ -7,6 +7,7 @@ import 'package:suicide_detection_client/screens/home/title/title.dart';
 
 import '../../providers/prediction_provider/prediction_provider.dart';
 import '../../widgets/liquid_progress_indicator/src/liquid_linear_progress_indicator.dart';
+import 'sample_button/sample_button.dart';
 import 'text_input_field/text_input_field.dart';
 
 class Home extends StatefulWidget {
@@ -29,7 +30,16 @@ class _HomeState extends State<Home> {
             children: [
               const Padding(
                 padding: EdgeInsets.only(bottom: 50),
-                child: PageTitle(),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    PageTitle(),
+                    Align(
+                      alignment: AlignmentDirectional.centerEnd,
+                      child: SampleButton(),
+                    ),
+                  ],
+                ),
               ),
               Expanded(
                 child: Row(

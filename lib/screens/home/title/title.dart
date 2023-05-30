@@ -52,12 +52,12 @@ class _PageTitleState extends State<PageTitle> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Consumer<APIRequestStateProvider>(
-        builder: (context, apiRequestStateProvider, child) {
-      _updateAnimationBasedOnApiRequestState();
-      return AnimatedBuilder(
-        animation: _opacityAnimationController,
-        builder: (context, child) {
-          return AnimatedBuilder(
+      builder: (context, apiRequestStateProvider, child) {
+        _updateAnimationBasedOnApiRequestState();
+        return AnimatedBuilder(
+          animation: _opacityAnimationController,
+          builder: (context, child) {
+            return AnimatedBuilder(
               animation: _colorTween,
               builder: (context, child) {
                 return Opacity(
@@ -71,10 +71,12 @@ class _PageTitleState extends State<PageTitle> with TickerProviderStateMixin {
                     ),
                   ),
                 );
-              });
-        },
-      );
-    });
+              },
+            );
+          },
+        );
+      },
+    );
   }
 
   void _updateAnimationBasedOnApiRequestState() {

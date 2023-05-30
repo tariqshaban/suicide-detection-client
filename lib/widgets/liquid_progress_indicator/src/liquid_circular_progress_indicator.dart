@@ -38,7 +38,7 @@ class LiquidCircularProgressIndicator extends ProgressIndicator {
         ) {
     if (borderWidth != null && borderColor == null ||
         borderColor != null && borderWidth == null) {
-      throw ArgumentError("borderWidth and borderColor should both be set.");
+      throw ArgumentError('borderWidth and borderColor should both be set.');
     }
   }
 
@@ -114,8 +114,8 @@ class _CircleBorderPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = width!;
     final newSize = Size(size.width - width!, size.height - width!);
-    canvas.drawArc(
-        Offset(width! / 2, width! / 2) & newSize, 0, _sweep, false, borderPaint);
+    canvas.drawArc(Offset(width! / 2, width! / 2) & newSize, 0, _sweep, false,
+        borderPaint);
   }
 
   @override
